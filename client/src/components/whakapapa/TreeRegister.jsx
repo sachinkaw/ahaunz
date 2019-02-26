@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginUser } from "../../actions/authActions";
+import { registerTreeUser } from "../../actions/authTreeActions";
 import { withRouter } from "react-router-dom";
 import TextFieldGroup from "../common/TextFieldGroup";
 
-class Login extends Component {
+class TreeRegister extends Component {
   constructor() {
     super();
 
     this.state = {
-      emailLogin: "",
-      passwordLogin: "",
+      passcode: "",
       errors: {}
     };
   }
@@ -33,14 +32,13 @@ class Login extends Component {
   };
 
   onSubmit = e => {
+    console.log("OnSubmit Tree Register");
     e.preventDefault();
 
-    const userData = {
-      email: this.state.emailLogin,
-      password: this.state.passwordLogin
+    const passcode = {
+      passcode: this.state.passcode
     };
-
-    this.props.loginUser(userData, this.props.history);
+    this.props.registerTreeUser(passcode, this.props.history);
   };
 
   render() {
@@ -51,29 +49,18 @@ class Login extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center text-white">Log In</h1>
               <p className="lead text-center text-white">
-                Sign in to your Āhau account
+                Register your Passcode to be eligible to build your Whakapapa
               </p>
               <div className="mt-5">
                 <form onSubmit={this.onSubmit}>
                   <TextFieldGroup
                     className="white-input"
-                    placeholder="Email Address"
-                    name="emailLogin"
-                    type="email"
-                    value={this.state.emailLogin}
+                    placeholder="Whanau passcode"
+                    name="passcode"
+                    value={this.state.passcode}
                     onChange={this.onChange}
-                    error={errors.emailLogin}
-                  />
-                  <TextFieldGroup
-                    className="white-input"
-                    placeholder="Password"
-                    name="passwordLogin"
-                    type="password"
-                    value={this.state.passwordLogin}
-                    onChange={this.onChange}
-                    error={errors.passwordLogin}
+                    error={errors.passcode}
                   />
 
                   <input type="submit" className="btn btn-red mt-4 mb-4" />
@@ -87,8 +74,8 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
+TreeRegister.propTypes = {
+  registerTreeUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -100,5 +87,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
-)(withRouter(Login));
+  { registerTreeUser }
+)(withRouter(TreeRegister));

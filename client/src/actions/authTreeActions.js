@@ -2,13 +2,16 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
-import { GET_ERRORS, SET_CURRENT_USER } from "./types";
+import { GET_ERRORS, SET_TREE_USER } from "./types";
 
-// Register User
-export const registerUser = (userData, history) => dispatch => {
+// Register Tree User
+export const registerTreeUser = (passcode, history) => dispatch => {
+  console.log("frontend: registerTreeUser");
+  console.log("userData = ", passcode);
+
   axios
-    .post("/api/users/register", userData)
-    .then(res => history.push("/login"))
+    .post("/api/treeusers/treeregister", passcode)
+    .then(res => history.push("/treelogin"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -16,27 +19,18 @@ export const registerUser = (userData, history) => dispatch => {
       })
     );
   // {TODO} register also logs in user
-  // .then(loginUser(userData, history));
+  // .then(loginTree(userData, history));
 };
 
 // Login - Get user token
 
-export const loginUser = (userData, history) => dispatch => {
+export const loginTree = (passcode, history) => dispatch => {
+  console.log("frontend: loginTree");
+  console.log("userData = ", passcode);
+
   axios
-    .post("/api/users/login", userData)
-    .then(res => {
-      // save to local storage
-      const { token } = res.data;
-      // Set token to LS
-      localStorage.setItem("jwtToken", token);
-      // Set token to Auth header
-      setAuthToken(token);
-      // decode token to get user data
-      const decoded = jwt_decode(token);
-      // set current user
-      dispatch(setCurrentUser(decoded));
-      history.push("/select");
-    })
+    .post("/api/treeusers/treelogin", passcode)
+    .then(res => history.push("/whakapapa"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -48,7 +42,7 @@ export const loginUser = (userData, history) => dispatch => {
 // set logged in user
 export const setCurrentUser = decoded => {
   return {
-    type: SET_CURRENT_USER,
+    type: SET_TREE_USER,
     payload: decoded
   };
 };

@@ -3,7 +3,9 @@ import clone from "clone";
 import manaariki from "../../manaariki";
 import { appendTreeToNode } from "../../d3/dndTree";
 import axios from "axios";
-import {stringify, parse} from "flatted"
+import { stringify, parse } from "flatted";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 const { d3 } = global;
 const debugData = manaariki;
@@ -13,19 +15,22 @@ const containerStyles = {
   height: "100vh"
 };
 
-export default class CenteredTree extends React.PureComponent {
+class CenteredTree extends React.PureComponent {
   state = {
     data: debugData
   };
 
   componentDidMount() {
+    const passcode = {
+      passcode: this.props.tree.passcode
+    };
 
     window.requestAnimationFrame(function() {
+      console.log("func passcode =", passcode);
       axios
-        .get("/api/whakapapa")
+        .post("/api/whakapapa", passcode)
         .then(res => {
-
-          var data = res.data.whakapapa.data
+          var data = res.data.whakapapa.data;
           var treeData = parse(data);
 
           appendTreeToNode({
@@ -43,22 +48,33 @@ export default class CenteredTree extends React.PureComponent {
   render() {
     return (
       <div>
-      <div id="tree-container" />
+        <div id="tree-container" />
       </div>
     );
   }
 }
 
 function onTreeUpdate(treeData) {
-
   //NOTE: we need to store the treeData as a string created by flatted because our js objects have circular refs.
-  treeData = stringify(treeData)
+  treeData = stringify(treeData);
   //Here: update the DB
   axios
-    .post("/api/whakapapa", {data: treeData})
+    .post("/api/whakapapa", { data: treeData })
     .then(res => {
       // DB update was successful, nothing else to do.
     })
     // inform the user something went wrong saving their latest. But do that later, not for the demo
-    .catch(err =>console.log("updating db failed with error: ", err));
+    .catch(err => console.log("updating db failed with error: ", err));
 }
+
+CenteredTree.propTypes = {
+  auth: PropTypes.object.isRequired,
+  tree: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  tree: state.tree,
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(CenteredTree);

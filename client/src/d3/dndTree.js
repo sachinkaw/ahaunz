@@ -673,6 +673,8 @@ function close_modal () {
   $(document).foundation('reveal', 'close')
 }
 
+global.close_modal = close_modal
+
 var create_node_modal_active = false
 var rename_node_modal_active = false
 var create_node_parent = null

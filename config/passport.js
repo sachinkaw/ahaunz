@@ -5,9 +5,9 @@ const User = mongoose.model("users");
 const keys = require("../config/keys");
 
 const opts = {};
-opts.jwtFromRequest = (req) => {
-  return req.headers.authorisation
-}
+opts.jwtFromRequest = req => {
+  return req.headers.authorisation;
+};
 opts.secretOrKey = keys.secretOrKey;
 
 module.exports = passport => {

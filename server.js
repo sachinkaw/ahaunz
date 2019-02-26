@@ -7,10 +7,9 @@ const users = require("./routes/api/users");
 const whakapapa = require("./routes/api/whakapapa");
 const profile = require("./routes/api/profile");
 const posts = require("./routes/api/posts");
-const app = express();
+const treeusers = require("./routes/api/treeusers");
 
-// ... other imports // heroku
-const path = require("path");
+const app = express();
 
 //bodyParser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,19 +33,10 @@ require("./config/passport")(passport);
 //Use routes
 app.use("/api/users", users);
 app.use("/api/whakapapa", whakapapa);
+app.use("/api/treeusers", treeusers);
 app.use("/api/profile", profile);
 app.use("/api/posts", posts);
 
-if (process.env.NODE_ENV === "production") {
-  // ... other app.use middleware // heroku
-  app.use(express.static("client/build"));
-
-  // Right before your app.listen(), add this: // heroku
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-  });
-}
-
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));

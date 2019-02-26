@@ -1,0 +1,6 @@
+window size/zoom view is default too far away 
+cannot drag child to person where child does not already exists
+pressing enter key to submit create child node refreshes page and doesnot perform action
+create child nore does not generate full form
+adopted field is set to default to yes
+

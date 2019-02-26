@@ -7,11 +7,11 @@ const keys = require("../../config/keys");
 const passport = require("passport");
 
 // Load Input Validation
-const validateRegisterInput = require("../../validation/register");
-const validateLoginInput = require("../../validation/login");
+const validateTreeRegisterInput = require("../../validation/treeregister");
+const validateLoginInput = require("../../validation/treelogin");
 
 // Load User model
-const User = require("../../models/User");
+const Passcode = require("../../models/Whakapapa");
 
 // @route   GET api/users/test
 // @desc    Tests users route
@@ -21,40 +21,48 @@ router.get("/test", (req, res) => res.json({ msg: "Users Works" }));
 // @route   POST api/users/register
 // @desc    Register user
 // @access  Public
-router.post("/register", (req, res) => {
-  const { errors, isValid } = validateRegisterInput(req.body);
+router.post("/treeregister", (req, res) => {
+  console.log("hitting treeregister api");
+  console.log("req----------------------", req.body);
+  //const { errors, isValid } = validateTreeRegisterInput(req.body);
 
-  // Check Validation
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
+  console.log("req.body", req.body);
 
-  User.findOne({ email: req.body.email }).then(user => {
-    if (user) {
-      errors.email = "Email already exists";
+  res.json({ msg: "Users Works" });
+  //Check Validation
+
+  console.log("check validation");
+  //if (!isValid) {
+  // return res.status(400).json(errors);
+  //}
+
+  console.log("Before FindOne");
+
+  Passcode.findOne({ passcode: req.body.passcode }).then(passcode => {
+    if (passcode) {
+      errors.passcode = "Passcode already exists";
       return res.status(400).json(errors);
     } else {
-      const avatar = gravatar.url(req.body.email, {
+      const avatar = gravatar.url(req.body.passcode, {
         s: "200", // Size
         r: "pg", // Rating
         d: "mm" // Default
       });
 
-      const newUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        avatar,
+      const newPasscode = new Passcode({
         password: req.body.password
         // passcode: 1
       });
 
+      console.log("newPasscodeeeeeeeeeeeeeeeee", newPasscode);
+
       bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
+        bcrypt.hash(newPasscode.passcode, salt, (err, hash) => {
           if (err) throw err;
-          newUser.password = hash;
-          newUser
+          newPasscode.passcode = hash;
+          newPAsscode
             .save()
-            .then(user => res.json(user))
+            .then(passcode => res.json(passcode))
             .catch(err => console.log(err));
         });
       });
