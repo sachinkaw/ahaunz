@@ -1,0 +1,10 @@
+[
+    { "name":"1","id":"2","depth":0,"_children":null,"x":50,"y":0,"x0":50,"y0":0,"children":"3"},
+        "GParent","bef7b70a-39ba-4234-ba2e-74b31bd530a6",["4"],
+        {"name":"5","id":"6","depth":1,"_children":null,"x":50,"y":30,"x0":50,"y0":30,"parent":"0",children":"7"},
+            "Pr","da7814a3-e87b-4101-b1c2-c036f4798542",["8","9","10","11"],
+            {"name":"12","id":"13","depth":2,"_children":null,"parent":"4","x":12.5,"y":60,"x0":12.5,"y0":60},{"name":"14","x0":37.5,"y0":60,"depth":2,"x":37.5,"y":60,"id":1,"parent":"4","children":"15"},{"name":"16","id":"17","depth":2,"_children":null,"parent":"4","x":62.5,"y":60,"x0":62.5,"y0":60},{"name":"18","id":"19","depth":2,"_children":null,"parent":"4","x":87.5,"y":60,"x0":87.5,"y0":60},"Child","540bdcd2-0e3d-48aa-aae9-1135560f6785","Sam",["20"],
+            "Sibling1","6d0286e0-c355-42df-ae8b-97e5fc652f95",
+            "Sibling2","06e0bd4c-9606-41a4-b337-c31d30bdc17d",
+            {"name":"21","id":"22","depth":3,"_children":null,"parent":"9","x":37.5,"y":90,"x0":37.5,"y0":90},"SamChild","26e20df0-5361-465a-aca2-8658f718dbd5"
+]

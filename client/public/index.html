@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/app.css" />
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/foundation.css" />
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/d3-context-menu.css" />
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/toastr.css" />
+  <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <script defer src="https://use.fontawesome.com/releases/v5.6.3/js/all.js"
+   integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1"
+    crossorigin="anonymous"></script>
+
+  <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+  <title>Ahau | I am</title>
+</head>
+<body style="margin-top:2em">
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+
+  <div id="EditNodeModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+   role="dialog">
+    <h2 id="modalTitle">Update person</h2>
+    <form>
+      <div class="row">
+        <div class="large-12 columns">
+          <label>First Name
+            <input type="text" class="inputName" id="EditNodeFirstName" placeholder="first name" required/>
+          </label>
+          <label>Other Names
+              <input type="text" class="inputName" id="EditNodeOtherName" placeholder="other names" />
+            </label>
+          <label>Last Name
+            <input type="text" class="inputName" id="EditNodeLastName" placeholder="last name" />
+          </label>
+          <label>Preferred Name
+            <input type="text" class="inputName" id="EditNodePrefName" placeholder="preferred name" />
+          </label>
+         <label>Gender
+            <select class="inputName" id="EditNodeGender">
+             <option value='m'>Male</option>
+             <option value="f">Female</option>
+            </select>
+          </label>
+          <label>Date of Birth
+            <input type="date" class="inputName" id="EditNodeDob" placeholder="date of birth" />
+          </label>
+          <label>Order of Birth
+              <input type="number" class="inputName" id="EditNodeOrder" name="quantity" min="1" max="25">
+            </label>
+          <label>Adopted
+            <select class="inputName" id="EditNodeAdopted">
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 columns">
+          &nbsp;
+        </div>
+        <div class="large-6 columns">
+          <a href="#" class="btn btn-dark" onclick="close_modal()">Cancel</a>
+          <a href="#" class="btn btn-red" onclick="edit_node()">Update</a>
+        </div>
+      </div>
+    </form>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
+
+  <div id="CreateNodeModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+    role="dialog">
+    <h2 id="modalTitle2">Add Child</h2>
+    <form>
+      <div class="row">
+        <div class="large-12 columns">
+          <label>First Name
+            <input type="text" class="inputName" id="CreateNodeFirstName" placeholder="First name" required/>
+          </label>
+          <label>Other Names
+              <input type="text" class="inputName" id="CreateNodeOtherName" placeholder="other names" />
+            </label>
+          <label>Last Name
+            <input type="text" class="inputName" id="CreateNodeLastName" placeholder="last name" />
+          </label>
+          <label>Preferred Name
+            <input type="text" class="inputName" id="CreateNodePrefName" placeholder="preferred name" />
+          </label>
+         <label>Gender
+            <select class="inputName" id="CreateNodeGender">
+             <option value='m'>Male</option>
+             <option value="f">Female</option>
+            </select>
+          </label>
+          <label>Date of Birth
+            <input type="date" class="inputName" id="CreateNodeDob" placeholder="date of birth" />
+          </label>
+          <label>Order of Birth
+              <input type="number" class="inputName" id="CreateNodeOrder" name="quantity" min="1" max="25">
+            </label>
+          <label>Adopted
+            <select class="inputName" id="CreateNodeAdopted">
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 columns">
+          &nbsp;
+        </div>
+        <div class="large-6 columns">
+          <a href="#" class="btn btn-dark" onclick="close_modal()">Cancel</a>
+          <a href="#" class="btn btn-red" onclick="create_node()">Create</a>
+        </div>
+      </div>
+    </form>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
+
+  <!--============== CREATE SIBLING ==============-->
+  <div id="CreateNodeModalSibling" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+    role="dialog">
+    <h2 id="modalTitleSibling">Add Sibling</h2>
+    <form>
+      <div class="row">
+        <div class="large-12 columns">
+          <label>First Name
+            <input type="text" class="inputName" id="CreateNodeFirstNameSibling" placeholder="First name" required/>
+          </label>
+          <label>Other Names
+              <input type="text" class="inputName" id="CreateNodeOtherNameSibling" placeholder="other names" />
+            </label>
+          <label>Last Name
+            <input type="text" class="inputName" id="CreateNodeLastNameSibling" placeholder="last name" />
+          </label>
+          <label>Preferred Name
+            <input type="text" class="inputName" id="CreateNodePrefNameSibling" placeholder="preferred name" />
+          </label>
+         <label>Gender
+            <select class="inputName" id="CreateNodeGenderSibling">
+             <option value='m'>Male</option>
+             <option value="f">Female</option>
+            </select>
+          </label>
+          <label>Date of Birth
+            <input type="date" class="inputName" id="CreateNodeDobSibling" placeholder="date of birth" />
+          </label>
+          <label>Order of Birth
+              <input type="number" class="inputName" id="CreateNodeOrderSibling" name="quantity" min="1" max="25">
+            </label>
+          <label>Adopted
+            <select class="inputName" id="CreateNodeAdoptedSibling">
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 columns">
+          &nbsp;
+        </div>
+        <div class="large-6 columns">
+          <a href="#" class="btn btn-dark" onclick="close_modal()">Cancel</a>
+          <a href="#" class="btn btn-red" onclick="create_sibling_node()">Create</a>
+        </div>
+      </div>
+    </form>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
+  <!--============== SIBLING FAILDED ==============-->
+
+  <div id="CreateNodeModalSiblingFail" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+  role="dialog">
+  <h2 id="modalTitleSibling">Add Sibling</h2>
+  <form>
+    <div class="row">
+      <div class="large-12 columns">
+      <h5> You must first create a parent to add a sibling</h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-6 columns">
+        &nbsp;
+      </div>
+      <div class="large-6 columns">
+        <a href="#" class="btn btn-dark" onclick="close_modal()">Ka pai</a>
+      </div>
+    </div>
+  </form>
+  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
+
+  <!--============== CREATE PARENT ==============-->
+  <div id="CreateNodeModalParent" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+    role="dialog">
+    <h2 id="modalTitleParent">Add Parent</h2>
+    <form>
+      <div class="row">
+        <div class="large-12 columns">
+          <label>First Name
+            <input type="text" class="inputName" id="CreateNodeFirstNameParent" placeholder="First name" required/>
+          </label>
+          <label>Other Names
+              <input type="text" class="inputName" id="CreateNodeOtherNameParent" placeholder="other names" />
+            </label>
+          <label>Last Name
+            <input type="text" class="inputName" id="CreateNodeLastNameParent" placeholder="last name" />
+          </label>
+          <label>Preferred Name
+            <input type="text" class="inputName" id="CreateNodePrefNameParent" placeholder="preferred name" />
+          </label>
+         <label>Gender
+            <select class="inputName" id="CreateNodeGenderParent" required>
+             <option value='m'>Male</option>
+             <option value="f">Female</option>
+            </select>
+          </label>
+          <label>Date of Birth
+            <input type="date" class="inputName" id="CreateNodeDobParent" placeholder="date of birth" />
+          </label>
+          <label>Order of Birth
+              <input type="number" class="inputName" id="CreateNodeOrderParent" name="quantity" min="1" max="25">
+            </label>
+          <label>Adopted
+            <select class="inputName" id="CreateNodeAdoptedParent">
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </label> -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 columns">
+          &nbsp;
+        </div>
+        <div class="large-6 columns">
+          <a href="#" class="btn btn-dark" onclick="close_modal()">Cancel</a>
+          <a href="#" class="btn btn-red" onclick="create_parent_node()">Create</a>
+        </div>
+      </div>
+    </form>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
+
+  <!--============== CREATE FIRST NODE ==============-->
+  <div id="CreateNodeModalFirst" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true"
+  role="dialog">
+  <h2 id="modalTitleParent">Create First Node</h2>
+  <form>
+    <div class="row">
+      <div class="large-12 columns">
+        <input type='hidden' id='CreateNodePass' />
+        <label>First Name
+          <input type="text" class="inputName" id="CreateNodeFirstNameFirst" placeholder="First name" />
+        </label>
+        <label>Other Names
+            <input type="text" class="inputName" id="CreateNodeOtherNameFirst" placeholder="other names" />
+          </label>
+        <label>Last Name
+          <input type="text" class="inputName" id="CreateNodeLastNameFirst" placeholder="last name" />
+        </label>
+        <label>Preferred Name
+          <input type="text" class="inputName" id="CreateNodePrefNameFirst" placeholder="preferred name" />
+        </label>
+       <label>Gender
+          <select class="inputName" id="CreateNodeGenderFirst">
+           <option value='m'>Male</option>
+           <option value="f">Female</option>
+          </select>
+        </label>
+        <label>Date of Birth
+          <input type="date" class="inputName" id="CreateNodeDobFirst" placeholder="date of birth" />
+        </label>
+        <label>Order of Birth
+            <input type="number" class="inputName" id="CreateNodeOrderFirst" name="quantity" min="1" max="25">
+          </label>
+        <label>Adopted
+          <select class="inputName" id="CreateNodeAdoptedFirst">
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-6 columns">
+        &nbsp;
+      </div>
+      <div class="row">
+        <div class="large-6 columns">
+          &nbsp;
+        </div>
+        <div class="large-6 columns">
+          <a href="#" class="btn btn-dark" onclick="close_modal()">Cancel</a>
+          <a href="#" class="btn btn-red" onclick="create_first_node()">Create</a>
+        </div>
+      </div>
+    </form>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
+
+  <script src="%PUBLIC_URL%/js/vendor/underscore-min.js"></script>
+  <script src="%PUBLIC_URL%/js/vendor/fastclick.js"></script>
+
+  <script src="https://d3js.org/d3.v3.min.js" crossorigin="anonymous"></script>
+  <script src="%PUBLIC_URL%/js/vendor/d3-context-menu.js"></script>
+  <script src="%PUBLIC_URL%/js/vendor/jquery.js"></script>
+  <script src="%PUBLIC_URL%/js/foundation.min.js"></script>
+  <script src="%PUBLIC_URL%/js/vendor/toastr.js"></script>
+
+  <script>
+    $(document).foundation();
+    $(document).on('opened', '[data-reveal]', function () {
+      var element = $(".inputName:visible").first();
+      element.focus(function () {
+        this.selectionStart = this.selectionEnd = this.value.length;
+      });
+      element.focus();
+    });
+
+    $('#RenameNodeName').keyup(function (e) {
+      if (e.keyCode == 13) {
+        rename_node();
+      }
+
+    });
+
+    $('#CreateNodeName').keyup(function (e) {
+      if (e.keyCode == 13) {
+        create_node();
+      }
+    });
+
+    $('#CreateNodeNameSibling').keyup(function (e) {
+      if (e.keyCode == 13) {
+        create_sibling_node();
+      }
+    });
+
+    $('#CreateNodeNameParent').keyup(function (e) {
+      if (e.keyCode == 13) {
+        create_parent_node();
+      }
+    });
+  </script>
+
+</body>
+</html>
